@@ -52,3 +52,22 @@ figure
 Looking at the two plots, we can see a distinct difference between the control and observation group. The control group seems to be relatively constant across the 8 week period, hovering at roughly 1.25 on average throughout. However, the experimental group demonstrates an upward trend as time progresses, ending around an average of 5.0, roughly. 
 
 **Question 3**
+
+Starting with mu = 0
+```{r}
+set.seed(1)
+
+sim = function(mu, n=30, sigma=5) {
+  data = rnorm(n=30, mean=mu, sd=sigma)
+  pvalue=t.test(data, mu=0 ,alpha = 0.05)
+  pvalue |> 
+    broom::tidy() |> 
+    select(estimate, p.value)
+}
+
+results = map(1:5000,\(i) sim(mu=0)) |>
+  bind_rows()
+```
+
+
+
