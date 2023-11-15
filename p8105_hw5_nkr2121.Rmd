@@ -68,7 +68,7 @@ sim = function(mu) {
 }
 ```
 
-Now running for all numbers, 0-6
+Now running for mu values, 0-6
 ```{r}
 set.seed(1)
 
@@ -82,5 +82,21 @@ results = expand_grid(
   unnest(estimate)
 ```
 
+Plotting proportion of times null was rejected against value of mu
+```{r}
+alpha = 0.05
 
+results |> 
+  group_by(mu) |> 
+  summarise(proportion = sum(p.value < alpha)/5000) |> 
+  ggplot(aes(x = mu, y = proportion)) +
+  geom_point() +
+  geom_line() +
+  labs(
+    x = "True value of mu",
+    y = "Power of the test",
+    title = "Plotting power against true value of mu"
+  )
+```
 
+Based on the curve produced, it seems that power increases as the values of mu increase, however it begins to plateau around 4 at power = 1 (the maximum value for power). Therefore, as effect size increases, so does the power. 
