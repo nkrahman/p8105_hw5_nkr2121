@@ -57,16 +57,29 @@ Starting with mu = 0
 ```{r}
 set.seed(1)
 
-sim = function(mu, n=30, sigma=5) {
-  data = rnorm(n=30, mean=mu, sd=sigma)
-  pvalue=t.test(data, mu=0 ,alpha = 0.05)
-  pvalue |> 
-    broom::tidy() |> 
-    select(estimate, p.value)
+sim = function(mu) {
+  data = tibble(
+    x = rnorm(n = 30, mean = mu, sd = 5),
+  )
+  output = data |>
+    t.test() |>
+    broom::tidy() |>
+    dplyr::select(estimate, p.value) 
 }
+```
 
-results = map(1:5000,\(i) sim(mu=0)) |>
-  bind_rows()
+Now running for all numbers, 0-6
+```{r}
+set.seed(1)
+
+results = expand_grid(
+  mu = c(0:6),
+  iter = 1:5000
+) |> 
+  mutate(
+    estimate = map(mu, sim)
+  ) |> 
+  unnest(estimate)
 ```
 
 
