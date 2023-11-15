@@ -124,4 +124,4 @@ results |>
   labs(x = "True value of mu", y = "Average estimate of mu", title = "Plotting average estimate of mu against true mu, \nwhere the null was rejected")
 ```
 
-
+For the plot that contains all values, regardless of whether or not the null was rejected, we see a 1-1 relation between true mu and estimated mu. However, when excluding those where the null was not rejected, that relationship is different. When mu = 0, 4, 5, and 6, the estimated mu is approximately equal to the true value of mu. However, for 1, 2, and 3, there is some deviation. This may be due to the fact of a smaller effect size, and thus a reduced power at those values of mu. 
