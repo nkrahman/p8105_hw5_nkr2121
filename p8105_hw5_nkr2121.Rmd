@@ -1,0 +1,30 @@
+---
+title: "p8105_hw5_nkr2121"
+author: "Nihaal Rahman"
+output: github_document
+---
+
+#Problem 2
+
+Using the list.files function to create the initial data frame
+```{r}
+names = list.files("data", full.names = TRUE)
+
+data = map(names, ~read_csv(.x) |> 
+             mutate(file_name = .x)) |>
+             bind_rows()
+```
+
+Now cleaning up the data frame
+```{r data cleaning }
+data_tidy = data |>
+  separate(file_name, into = c("folder", "name"), sep = "/") |> 
+  separate(name, into = c("arm", "id"), sep = "_") |> 
+  separate(id, into = c("subject_id", "csv"), sep = "\\.") |> 
+  select(-folder, -csv) |>
+  pivot_longer(col = 1:8, names_to = "week", values_to = "value") |> 
+  mutate(week = as.numeric(str_extract(week, "\\d+")))
+```
+
+
+
