@@ -26,5 +26,17 @@ data_tidy = data |>
   mutate(week = as.numeric(str_extract(week, "\\d+")))
 ```
 
+Now creating a spaghetti plot
+```{r}
+figure = ggplot(data_tidy, aes(x = week, y = value, group = subject_id, color = subject_id))+
+  geom_point()+
+  geom_line()+
+  facet_wrap(~arm)+
+  labs(title = "Plot of Observations Over Time",
+       x = "Week",
+       y = "Value")
 
+figure
+```
 
+Looking at the two plots, we can see a distinct difference between the control and observation group. The control group seems to be relatively constant across the 8 week period, hovering at roughly 1.25 on average throughout. However, the experimental group demonstrates an upward trend as time progresses, ending around an average of 5.0, roughly. 
