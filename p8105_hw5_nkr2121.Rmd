@@ -100,3 +100,28 @@ results |>
 ```
 
 Based on the curve produced, it seems that power increases as the values of mu increase, however it begins to plateau around 4 at power = 1 (the maximum value for power). Therefore, as effect size increases, so does the power. 
+
+Plotting average estimate of mu against true value of mu
+```{r}
+results |> 
+  group_by(mu) |> 
+  mutate(mu_avg = mean(estimate)) |> 
+  ggplot(aes(x = mu, y = mu_avg)) +
+  geom_point() +
+  geom_line() +
+  labs(x = "True value of mu", y = "Average estimate of mu", title = "Plotting average estimate of mu against true mu")
+```
+
+Plotting average estimate of mu against true value of mu for which null was rejected 
+```{r}
+results |> 
+  filter(p.value<0.05) |> 
+  group_by(mu) |> 
+  mutate(mu_avg = mean(estimate)) |> 
+  ggplot(aes(x = mu, y = mu_avg)) +
+  geom_point() +
+  geom_line() +
+  labs(x = "True value of mu", y = "Average estimate of mu", title = "Plotting average estimate of mu against true mu, \nwhere the null was rejected")
+```
+
+
